@@ -1,32 +1,55 @@
-var staticCacheName = "The Crime";
- 
+const cacheName = "MyCache_1";
+const precachedResources = ["/", "/app.js";
 
-self.addEventListener("install", function (e) {
+async function precache() {
+  const cache = await caches.open(cacheName);
+  return cache.addAll(precachedResources);
+}
 
-  e.waitUntil(
-
-    caches.open(staticCacheName).then(function (cache) { 
-
-      return cache.addAll(["/"]);
-
-    })
-
-  );
+self.addEventListener("install", (event) => {
+  event.waitUntil(precache());
 });
- 
+async function cacheFirst(request) {
+  const cachedResponse = await caches.match(request);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+  try {
+    const networkResponse = await fetch(request);
+    if (networkResponse.ok) {
+      const cache = await caches.open("MyCache_1");
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  } catch (error) {
+    return Response.error();
+  }
+}
 
-self.addEventListener("fetch", function (event) {
+self.addEventListener("fetch", (event) => {
+  if (precachedResources.includes(url.pathname)) {
+    event.respondWith(cacheFirst(event.request));
+  }
+});
+function isCacheable(request) {
+  const url = new URL(request.url);
+  return !url.pathname.endsWith(".json");
+}
 
-  console.log(event.request.url);
- 
+async function cacheFirstWithRefresh(request) {
+  const fetchResponsePromise = fetch(request).then(async (networkResponse) => {
+    if (networkResponse.ok) {
+      const cache = await caches.open("MyCache_1");
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  });
 
-  event.respondWith(
+  return (await caches.match(request)) || (await fetchResponsePromise);
+}
 
-    caches.match(event.request).then(function (response) {
-
-      return response || fetch(event.request);
-
-    })
-
-  );
+self.addEventListener("fetch", (event) => {
+  if (isCacheable(event.request)) {
+    event.respondWith(cacheFirstWithRefresh(event.request));
+  }
 });
