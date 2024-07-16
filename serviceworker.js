@@ -1,4 +1,4 @@
-var CACHE_NAME = 'my-pwa';
+var CACHE_NAME = 'The-Crime';
 var urlsToCache = [
     '/',
     'main/asset-v1/app.js'
@@ -8,7 +8,7 @@ var urlsToCache = [
 self.addEventListener('install', event => {
     // Perform install steps
     event.waitUntil(
-        caches.open(CACHE_NAME)
+        caches.open(The-Crime)
             .then(function (cache) {
                 return cache.addAll(urlsToCache);
             })
@@ -32,13 +32,13 @@ self.addEventListener('fetch', event => {
 
 // Update a service worker
 self.addEventListener('activate', event => {
-    var cacheWhitelist = ['wms-pwa'];
+    var cacheWhitelist = ['wms-The-Crime'];
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName);
+                    if (cacheWhitelist.indexOf(The-Crime) === -1) {
+                        return caches.delete(The-Crime);
                     }
                 })
             );
