@@ -7,7 +7,7 @@ self.addEventListener("install", function (e) {
 
     caches.open(staticCacheName).then(function (cache) { 
 
-      return cache.addAll(["/" "index.html"]);
+      return cache.addAll(["/"]);
 
     })
 
