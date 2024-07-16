@@ -4,8 +4,6 @@
 
     "short_name":"The Crime",
 
-    "start_url":"app.html",
-
     "display":"standalone",
 
     "background_color":"#5900b3",
