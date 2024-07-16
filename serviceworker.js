@@ -1,7 +1,7 @@
 var CACHE_NAME = 'my-pwa';
 var urlsToCache = [
     '/',
-    '/asset-v1/app.js'
+    'asset-v1/app.js'
 ];
 
 // Install a service worker
