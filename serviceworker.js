@@ -7,7 +7,7 @@ self.addEventListener("install", function (e) {
 
     caches.open(staticCacheName).then(function (cache) { 
 
-      return cache.addAll(["/" "asset-v1/app.js"]);
+      return cache.addAll(["/"]);
 
     })
 
